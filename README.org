@@ -5,3 +5,8 @@
 Emacs interface for Unitime.
 
 [[./image.png]]
+
+* Dependencies
+
+  - requests, found in Melpa
+  - json, found in Melpa

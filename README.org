@@ -8,5 +8,18 @@ Emacs interface for Unitime.
 
 * Dependencies
 
-  - requests, found in Melpa
-  - json, found in Melpa
+  - =requests=, found in Melpa
+  - =json=, found in Melpa
+
+* Install / config
+
+  Download unitime-el and place is somewhere, in my case it's located in
+  =~/git/unitime-el/=.
+
+  #+BEGIN_SRC emacs-lisp
+    (add-to-list 'load-path "~/git/unitime-el")
+    (require 'unitime)
+    (setq unitime/courses '(2DV50E))
+  #+END_SRC
+
+  To use unitime-el, use =M-x unitime RET=.

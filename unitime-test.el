@@ -62,8 +62,8 @@
 
 (ert-deftest unitime--request-not-valid-course ()
   "Test a valid course"
-    (should
-     (not (unitime--request 'course "HEJSAN"))))
+    (should-not
+     (unitime--request 'course "HEJSAN")))
 
 
 (ert-deftest unitime--lecture-table-row-header ()

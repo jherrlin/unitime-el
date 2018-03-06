@@ -4,16 +4,23 @@
 (require 'json)
 
 
-(defvar unitime/courses-list (list "2DV50E" "1DV507")
+(defvar unitime/courses '()
   "Unitime courses as lists in a string.
 
 Example:
-(defvar unitime/courses-list (list \"2DV50E\"))")
+(setq unitime/courses '(2DV50E))")
+
+
+(defun unitime--courses ()
+  "Converts the courses symbols to string."
+  (map 'list
+       (lambda (x) (symbol-name x))
+       unitime/courses))
 
 
 (defun unitime--request (type course)
   "Get data from Unitime API."
-  (let* ((url (if (eq type 'courses) "https://unitime.jherrlin.se/api/course/"
+  (let* ((url (if (eq type 'course) "https://unitime.jherrlin.se/api/course/"
                 "https://unitime.jherrlin.se/api/lectures/"))
          (response (request
                     url
@@ -23,7 +30,8 @@ Example:
                     :headers '(("Content-Type" . "application/json"))
                     :parser 'json-read))
          (data (request-response-data response)))
-    `(,course . ,data)))
+    (if data
+        `(,course . ,data))))
 
 
 (defun unitime--get (type)
@@ -36,9 +44,9 @@ Example call:
 (unitime--get 'courses)"
   (map 'list (lambda (course)
                (if (eq type 'courses)
-                   (unitime--request 'courses course)
+                   (unitime--request 'course course)
                  (unitime--request 'lectures course)))
-       unitime/courses-list))
+       (unitime--courses)))
 
 
 (defun unitime--lecture-table-row-header ()
@@ -102,12 +110,15 @@ Example call:
 
 (defun unitime ()
   (interactive)
-  (unitime--insert-buffer-header)
-  (mapc
-   (lambda (x)
-     (unitime--insert-lecture-table x))
-   (unitime--get 'lectures))
-  (switch-to-buffer (get-buffer-create "unitime-buffer")))
+  (if unitime/courses
+      (progn
+        (unitime--insert-buffer-header)
+        (mapc
+         (lambda (x)
+           (unitime--insert-lecture-table x))
+         (unitime--get 'lectures))
+        (switch-to-buffer (get-buffer-create "unitime-buffer")))
+    (princ "No courses in course list")))
 
 
 (provide 'unitime)

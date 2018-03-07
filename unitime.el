@@ -1,14 +1,21 @@
 ;;; unitime.el --- Emacs interface for Unitime -*- lexical-binding: t -*-
 
+;;; This piece of code it made to be used with the Unitime API
+;;; https://github.com/Kodkollektivet/unitime-api/tree/celery-docker
+
+;;; Author: John Herrlin
+
+;;; Code:
+
 (require 'request)
 (require 'json)
 
 
-(defvar unitime/courses '()
-  "Unitime courses as lists in a string.
+(defcustom unitime/courses nil
+  "Unitime courses list.
 
-Example:
-(setq unitime/courses '(2DV50E))")
+Config example: (setq unitime/courses '(2DV50E))"
+  :type 'list)
 
 
 (defun unitime--courses ()

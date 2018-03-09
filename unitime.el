@@ -1,9 +1,13 @@
 ;;; unitime.el --- Emacs interface for Unitime -*- lexical-binding: t -*-
 
-;;; This piece of code it made to be used with the Unitime API
+;;; This piece of code it made to be used with the Unitime API and get your schedule for
+;;; you LNU Växjö courses.
 ;;; https://github.com/Kodkollektivet/unitime-api/tree/celery-docker
 
-;;; Author: John Herrlin
+;; Author: John Herrlin <jherrlin@gmail.com>
+;; URL: https://github.com/jherrlin/unitime-el
+;; Package-Requires: ((emacs "25.1"))
+;; Version: 0.2
 
 ;;; Code:
 

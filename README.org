@@ -2,6 +2,8 @@
 #+AUTHOR: John Herrlin
 #+EMAIL: jherrlin@gmail.com
 
+[[https://travis-ci.org/jherrlin/unitime-el][https://travis-ci.org/jherrlin/unitime-el.svg?branch=master]]
+
 Emacs interface for Unitime.
 
 [[./image.png]]

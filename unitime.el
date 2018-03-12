@@ -11,6 +11,8 @@
 
 ;;; Code:
 
+(require 'cl)
+(require 'org)
 (require 'request)
 (require 'json)
 

@@ -68,7 +68,7 @@
 
 (ert-deftest unitime--lecture-table-row-header ()
   (should
-   (string="|Start datetime|End datetime|Teacher|Info|Description|Room name|Room floor|Room lat|Room lon|" (unitime--lecture-table-row-header))))
+   (string="|Start datetime|End datetime|Teacher|Info|Description|Room name|" (unitime--lecture-table-row-header))))
 
 
 ;;; unitime-test.el ends here

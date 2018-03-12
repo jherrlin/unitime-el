@@ -1,7 +1,7 @@
 ;;; unitime.el --- Emacs interface for Unitime -*- lexical-binding: t -*-
 
-;;; This piece of code it made to be used with the Unitime API and get your schedule for
-;;; you LNU Växjö courses.
+;;; This piece of code it made to be used with the Unitime API and
+;;; get your schedule for your LNU Växjö courses.
 ;;; https://github.com/Kodkollektivet/unitime-api/tree/celery-docker
 
 ;; Author: John Herrlin <jherrlin@gmail.com>
@@ -65,8 +65,19 @@ Example call:
   (concatenate 'string
                "|" "Start datetime" "|" "End datetime"
                "|" "Teacher" "|" "Info" "|" "Description"
-               "|" "Room name" "|" "Room floor" "|" "Room lat"
-               "|" "Room lon" "|"))
+               "|" "Room name" "|"))
+
+
+(defun unitime--course-table (course)
+  "Parse and return a valid orgmode table"
+  (concatenate 'string
+               "|----|----|\n"
+               "| Name | " (cdr (assoc 'name course)) "|\n"
+               "| Code | " (cdr (assoc 'code course)) "|\n"
+               "| Speed | " (cdr (assoc 'speed course)) "|\n"
+               "| Points | " (cdr (assoc 'points course)) "|\n"
+               "| Syllabus | [[" (cdr (assoc 'syllabus course)) "][syllabus en]]|\n"
+               "|----|----|"))
 
 
 (defun unitime--get-buffer ()
@@ -84,9 +95,6 @@ Example call:
                  "|" (cdr (assoc 'info course))
                  "|" (cdr (assoc 'description course))
                  "|" (cdr (assoc 'name room))
-                 "|" (number-to-string (cdr (assoc 'floor room)))
-                 "|" (number-to-string (cdr (assoc 'lat room)))
-                 "|" (number-to-string (cdr (assoc 'lon room)))
                  "|")))
 
 
@@ -97,7 +105,7 @@ Example call:
       (funcall 'org-mode)
       (insert "#+TITLE: Unitime-el\n")
       (insert "#+STARTUP: content\n")
-      (insert "\n\n"))))
+      (insert "\n"))))
 
 
 (defun unitime--insert-lecture-table (lectures)
@@ -105,7 +113,12 @@ Example call:
         (course (car lectures))
         (lectures (cdr lectures)))
     (with-current-buffer unitime-buffer
-      (insert (concatenate 'string "* " course "\n"))
+      (insert (concatenate 'string "* " course "\n\n"))
+      (insert (unitime--course-table (unitime--request 'course course)))
+      (backward-char 1)
+      (org-ctrl-c-ctrl-c)
+      (point-max)
+      (insert "\n\n")
       (insert (unitime--lecture-table-row-header))
       (insert "\n|-\n")
       (mapc ;; Iterate over lectures
@@ -116,7 +129,8 @@ Example call:
       (backward-char 1)
       (org-ctrl-c-ctrl-c)
       (point-max)
-      (insert "\n\n"))))
+      (insert "\n\n")
+      (indent-region (point-min) (point-max)))))
 
 
 (defun unitime ()

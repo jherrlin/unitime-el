@@ -10,6 +10,7 @@ Emacs interface for Unitime.
 
 * Dependencies
 
+  - =org=, found in Melpa
   - =requests=, found in Melpa
   - =json=, found in Melpa
 
